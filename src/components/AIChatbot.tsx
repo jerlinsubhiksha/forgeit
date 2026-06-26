@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plane, Send, X, Bot, Loader2, Sparkles } from "lucide-react";
+import { Send, X, Bot, Loader2, Sparkles } from "lucide-react";
 import { apiClient } from "../api/client";
 
 interface Message {

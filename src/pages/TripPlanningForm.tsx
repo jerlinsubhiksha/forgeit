@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function TripPlanningForm() {
   const [step, setStep] = useState(1);
-  const totalSteps = 6; // 5 steps + 1 done screen
   
   const [formData, setFormData] = useState({
     destination: "",

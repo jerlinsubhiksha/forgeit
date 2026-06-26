@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Plane, Clock, MapPin, AlertCircle, CloudSun, Hotel, Briefcase, Check } from 'lucide-react';
+import { Clock, MapPin, CloudSun, Hotel, Briefcase, Check } from 'lucide-react';
 import { apiClient } from '../api/client';
 
 export default function Dashboard() {
