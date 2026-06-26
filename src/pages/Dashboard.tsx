@@ -1,5 +1,5 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
-import { Plane, ArrowRight, Clock, MapPin, AlertCircle } from 'lucide-react';
+import { Plane, Clock, MapPin, AlertCircle } from 'lucide-react';
 
 const mockData = {
   roadmap: {

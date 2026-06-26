@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { MapPin, Calendar, Compass, Star } from "lucide-react";
+import { Calendar, Compass, Star } from "lucide-react";
 
 export default function LandingPage() {
   return (
