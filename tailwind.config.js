@@ -18,6 +18,8 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        serif: ['Fraunces', 'serif'],
+        mono: ['IBM Plex Mono', 'monospace'],
       },
     },
   },

@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import AIChatbot from "../components/AIChatbot";
 
 export default function MainLayout() {
   return (
@@ -11,6 +12,7 @@ export default function MainLayout() {
       <footer className="bg-white border-t border-soft-serve py-8 text-center text-gray-500">
         &copy; {new Date().getFullYear()} Voyana AI. All rights reserved.
       </footer>
+      <AIChatbot />
     </div>
   );
 }
