@@ -1,58 +1,56 @@
-// No useState needed
-import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion';
-import { Plane, Star, Map, Calendar, ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { Calendar, Compass, Star, ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function LandingPage() {
-  const navigate = useNavigate();
-  
-  // Parallax scroll effect
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 1000], [0, 200]);
-  const y2 = useTransform(scrollY, [0, 1000], [0, -100]);
-
-  // Mouse move effect for floating elements
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const [isMounted, setIsMounted] = useState(false);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e;
-    const x = (clientX / window.innerWidth - 0.5) * 20;
-    const y = (clientY / window.innerHeight - 0.5) * 20;
-    mouseX.set(x);
-    mouseY.set(y);
-  };
+  useEffect(() => {
+    setIsMounted(true);
+    const handleMouseMove = (e: MouseEvent) => {
+      // Normalize mouse coordinates to range [-1, 1]
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = (e.clientY / window.innerHeight) * 2 - 1;
+      mouseX.set(x);
+      mouseY.set(y);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
 
-  // Transforms for individual floating boxes
-  const float1X = useTransform(mouseX, [-10, 10], [-20, 20]);
-  const float1Y = useTransform(mouseY, [-10, 10], [-20, 20]);
+  // Smooth springs for subtle 3D floating effect
+  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
+
+  // Floating transforms based on mouse position (Opposite directions for parallax depth)
+  const float1X = useTransform(springX, [-1, 1], [-50, 50]);
+  const float1Y = useTransform(springY, [-1, 1], [-50, 50]);
   
-  const float2X = useTransform(mouseX, [-10, 10], [15, -15]);
-  const float2Y = useTransform(mouseY, [-10, 10], [15, -15]);
+  const float2X = useTransform(springX, [-1, 1], [40, -40]);
+  const float2Y = useTransform(springY, [-1, 1], [40, -40]);
 
-  const float3X = useTransform(mouseX, [-10, 10], [-30, 30]);
-  const float3Y = useTransform(mouseY, [-10, 10], [-30, 30]);
+  const float3X = useTransform(springX, [-1, 1], [-80, 80]);
+  const float3Y = useTransform(springY, [-1, 1], [80, -80]);
+
+  const float4X = useTransform(springX, [-1, 1], [60, -60]);
+  const float4Y = useTransform(springY, [-1, 1], [-60, 60]);
 
   return (
-    <div 
-      className="min-h-screen bg-[#EAE4FC] dark:bg-[#0F172A] text-slate-800 dark:text-slate-100 overflow-hidden font-sans transition-colors duration-500"
-      onMouseMove={handleMouseMove}
-    >
+    <div className="flex flex-col min-h-screen bg-[#EAE4FC] overflow-hidden selection:bg-disco-queen selection:text-white">
       
-      {/* 1. HERO SECTION */}
-      <section className="relative h-screen flex items-center justify-center pt-16">
+      {/* Interactive 3D Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center pt-20">
         
-        {/* Abstract Background Blobs */}
-        <div className="absolute top-[20%] left-[10%] w-96 h-96 bg-helio/20 dark:bg-helio/10 rounded-full mix-blend-multiply dark:mix-blend-overlay filter blur-3xl opacity-70 animate-blob" />
-        <div className="absolute top-[30%] right-[10%] w-96 h-96 bg-disco-queen/20 dark:bg-disco-queen/10 rounded-full mix-blend-multiply dark:mix-blend-overlay filter blur-3xl opacity-70 animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-8 left-[30%] w-96 h-96 bg-opal/20 dark:bg-opal/10 rounded-full mix-blend-multiply dark:mix-blend-overlay filter blur-3xl opacity-70 animate-blob animation-delay-4000" />
-
-        {/* 3D Floating Elements (The "Wix" style interactive boxes) */}
-        <div className="absolute inset-0 pointer-events-none z-10 hidden lg:block">
+        {/* Floating 3D Background Elements */}
+        {isMounted && (
+          <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
             
             {/* Top Left Floating Image */}
             <motion.div 
-              className="absolute top-[15%] left-[8%] w-80 h-64 rounded-[2rem] bg-cover bg-center shadow-2xl border-4 border-white/50 dark:border-white/10"
+              className="absolute top-[15%] left-[8%] w-80 h-64 rounded-[2rem] bg-cover bg-center shadow-2xl border-4 border-white/50"
               style={{ 
                 x: float1X, 
                 y: float1Y, 
@@ -61,29 +59,25 @@ export default function LandingPage() {
               }}
             />
             
-            {/* Top Right Floating Badge */}
+            {/* Top Right Floating Element (Yellow Circle like the tennis ball) */}
             <motion.div 
-              className="absolute top-[25%] right-[15%] px-6 py-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/50 dark:border-slate-700"
-              style={{ 
-                x: float2X, 
-                y: float2Y,
-                rotate: 12
-              }}
+              className="absolute top-[12%] right-[15%] w-48 h-48 rounded-full bg-[#E8E16D] shadow-2xl flex items-center justify-center text-7xl border border-white/40"
+              style={{ x: float2X, y: float2Y, rotate: 15 }}
             >
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-flip-side rounded-full">
-                  <Star className="w-5 h-5 text-disco-queen" />
-                </div>
-                <div>
-                  <p className="font-bold text-sm dark:text-white">AI Tailored</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">10,000+ Journeys</p>
-                </div>
-              </div>
+              <span className="drop-shadow-lg">✈️</span>
+            </motion.div>
+
+            {/* Bottom Left Floating Emoji/Icon */}
+            <motion.div 
+              className="absolute bottom-[20%] left-[15%] text-[8rem] drop-shadow-2xl mix-blend-multiply opacity-90"
+              style={{ x: float4X, y: float4Y, rotate: -15 }}
+            >
+              🌍
             </motion.div>
 
             {/* Bottom Right Floating Image */}
             <motion.div 
-              className="absolute bottom-[10%] right-[10%] w-96 h-64 rounded-[2rem] bg-cover bg-center shadow-2xl border-4 border-white/50 dark:border-white/10"
+              className="absolute bottom-[10%] right-[10%] w-96 h-64 rounded-[2rem] bg-cover bg-center shadow-2xl border-4 border-white/50"
               style={{ 
                 x: float3X, 
                 y: float3Y,
@@ -92,96 +86,100 @@ export default function LandingPage() {
               }}
             />
             
-            {/* Bottom Left Small Accent Box */}
-            <motion.div 
-              className="absolute bottom-[20%] left-[20%] w-24 h-24 bg-coral/90 rounded-3xl shadow-xl flex items-center justify-center border border-white/30"
-              style={{ 
-                x: float2X, 
-                y: float1Y,
-                rotate: -15
-              }}
-            >
-               <Map className="w-10 h-10 text-white" />
-            </motion.div>
+            {/* Center Background Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/40 rounded-full blur-[100px]" />
+          </div>
+        )}
 
-        </div>
-
-        {/* Center Hero Content */}
-        <div className="relative z-20 text-center max-w-4xl px-4">
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-6xl md:text-8xl font-serif font-black tracking-tight mb-6 text-disco-queen dark:text-white"
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-5xl mx-auto px-4 text-center mt-[-10vh]">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            Design Your <br/> Next <span className="text-transparent bg-clip-text bg-gradient-to-r from-coral to-helio">Escape.</span>
-          </motion.h1>
+            <h1 className="text-[5rem] md:text-[8.5rem] font-serif text-slate-900 mb-6 tracking-tighter leading-[0.9] drop-shadow-sm">
+              Designed for<br/>
+              <span className="text-disco-queen italic pr-4">Voyages.</span>
+            </h1>
+          </motion.div>
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg md:text-2xl text-slate-700 dark:text-slate-300 mb-10 max-w-2xl mx-auto"
+            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+            className="mt-8 text-xl md:text-2xl text-slate-700 max-w-2xl mx-auto font-medium leading-relaxed"
           >
-            Meet Voyana AI. Your intelligent travel designer that builds breathtaking, personalized itineraries in seconds.
+            Engage your wanderlust with custom itineraries, smart packing lists, and live weather tracking powered by AI.
           </motion.p>
           
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+            className="mt-14 flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <button onClick={() => navigate('/plan')} className="px-8 py-4 bg-disco-queen text-white rounded-full font-bold text-lg hover:bg-purple-900 transition-colors shadow-xl flex items-center gap-2 group">
-              Start Planning
+            <Link to="/plan" className="group px-10 py-5 rounded-full bg-slate-900 text-white font-bold text-lg shadow-2xl hover:scale-105 hover:bg-disco-queen transition-all flex items-center gap-3">
+              Book Now
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button onClick={() => navigate('/login')} className="px-8 py-4 bg-white dark:bg-slate-800 dark:text-white dark:border-slate-700 text-disco-queen border-2 border-disco-queen rounded-full font-bold text-lg hover:bg-soft-serve dark:hover:bg-slate-700 transition-colors">
-              Sign In
-            </button>
+            </Link>
+            <Link to="/login" className="px-10 py-5 rounded-full bg-white/60 backdrop-blur-md text-slate-900 font-bold text-lg border border-white/50 hover:bg-white hover:shadow-xl transition-all">
+              Log In
+            </Link>
           </motion.div>
         </div>
       </section>
 
-      {/* 2. FEATURES / VALUE PROP SECTION */}
-      <section className="py-32 bg-white dark:bg-slate-900 relative z-20 transition-colors duration-500">
-        <div className="max-w-7xl mx-auto px-6">
+      {/* Elegant Features Section */}
+      <section className="py-32 bg-white relative z-20 rounded-t-[4rem] shadow-[0_-20px_50px_rgba(0,0,0,0.05)] mt-[-4rem]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-serif font-bold text-disco-queen dark:text-white mb-4">Travel Smarter, Not Harder.</h2>
-            <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg">Voyana replaces dozens of spreadsheets, booking tabs, and reviews with one seamless, intelligent interface.</p>
+            <h2 className="text-4xl md:text-6xl font-serif text-slate-900 tracking-tight">Smarter Travel Made Easy</h2>
+            <p className="mt-4 text-xl text-gray-500 font-medium">Everything you need in one perfectly designed dashboard.</p>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {/* Feature 1 */}
-            <motion.div style={{ y: y1 }} className="bg-soft-serve/30 dark:bg-slate-800/50 p-8 rounded-[2.5rem] border border-white dark:border-slate-700 shadow-xl">
-              <div className="w-14 h-14 bg-opal rounded-2xl flex items-center justify-center mb-6">
-                <Map className="w-7 h-7 text-white" />
+            <motion.div 
+              whileHover={{ y: -10 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="p-10 rounded-[2.5rem] bg-[#FDFBF7] border border-gray-100 shadow-lg hover:shadow-2xl transition-shadow group"
+            >
+              <div className="w-16 h-16 bg-gradient-to-br from-flip-side to-coral rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                <Compass className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold mb-3 dark:text-white">Day-by-Day Roadmaps</h3>
-              <p className="text-slate-600 dark:text-slate-400">Perfectly paced itineraries balancing must-see sights with hidden local gems, so you never feel rushed or bored.</p>
+              <h3 className="text-2xl font-serif font-bold text-slate-900 mb-4">AI Travel Roadmap</h3>
+              <p className="text-gray-600 leading-relaxed text-lg">Skip the confusing maps. Get a crystal-clear timeline of your journey, including transport methods, durations, and departure points.</p>
             </motion.div>
-
+            
             {/* Feature 2 */}
-            <motion.div className="bg-soft-serve/30 dark:bg-slate-800/50 p-8 rounded-[2.5rem] border border-white dark:border-slate-700 shadow-xl mt-8 md:mt-0">
-              <div className="w-14 h-14 bg-flip-side rounded-2xl flex items-center justify-center mb-6">
-                <Calendar className="w-7 h-7 text-disco-queen" />
+            <motion.div 
+              whileHover={{ y: -10 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="p-10 rounded-[2.5rem] bg-[#FDFBF7] border border-gray-100 shadow-lg hover:shadow-2xl transition-shadow group"
+            >
+              <div className="w-16 h-16 bg-gradient-to-br from-helio to-disco-queen rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                <Calendar className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold mb-3 dark:text-white">Weather & Packing</h3>
-              <p className="text-slate-600 dark:text-slate-400">Voyana checks the actual forecast for your dates and automatically generates a smart packing list.</p>
+              <h3 className="text-2xl font-serif font-bold text-slate-900 mb-4">Smart Budget Estimator</h3>
+              <p className="text-gray-600 leading-relaxed text-lg">Know exactly what you'll spend before you go. Visual pie charts break down transportation, food, activities, and emergencies.</p>
             </motion.div>
 
             {/* Feature 3 */}
-            <motion.div style={{ y: y2 }} className="bg-soft-serve/30 dark:bg-slate-800/50 p-8 rounded-[2.5rem] border border-white dark:border-slate-700 shadow-xl mt-16 md:mt-0">
-              <div className="w-14 h-14 bg-coral rounded-2xl flex items-center justify-center mb-6">
-                <Plane className="w-7 h-7 text-white" />
+            <motion.div 
+              whileHover={{ y: -10 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="p-10 rounded-[2.5rem] bg-[#FDFBF7] border border-gray-100 shadow-lg hover:shadow-2xl transition-shadow group"
+            >
+              <div className="w-16 h-16 bg-gradient-to-br from-opal to-star-board rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                <Star className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold mb-3 dark:text-white">Budget Mastery</h3>
-              <p className="text-slate-600 dark:text-slate-400">Tell us your budget, and we'll dynamically allocate it across food, stays, and fun so you never overspend.</p>
+              <h3 className="text-2xl font-serif font-bold text-slate-900 mb-4">Weather-Aware Packing</h3>
+              <p className="text-gray-600 leading-relaxed text-lg">Live weather forecasts power dynamic packing lists. You'll never forget your sunscreen for the beach or thermals for the mountains.</p>
             </motion.div>
           </div>
         </div>
       </section>
-
     </div>
   );
 }
