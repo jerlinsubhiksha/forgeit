@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, X, Bot, Loader2, Sparkles } from "lucide-react";
 import { apiClient } from "../api/client";
+import toast from 'react-hot-toast';
 
 interface Message {
   role: 'user' | 'ai';
@@ -41,9 +42,11 @@ export default function AIChatbot() {
         history: messages 
       });
       setMessages([...newMessages, { role: 'ai', content: response.data.reply }]);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      setMessages([...newMessages, { role: 'ai', content: "Sorry, I'm having trouble connecting to my brain right now. Please check your API keys!" }]);
+      const errorMessage = error.uiMessage || "Sorry, I'm having trouble connecting to my brain right now.";
+      setMessages([...newMessages, { role: 'ai', content: errorMessage }]);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
