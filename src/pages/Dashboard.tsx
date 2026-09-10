@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
-import { Clock, MapPin, CloudSun, Hotel, Briefcase, Check, Plane } from 'lucide-react';
+import { Clock, MapPin, CloudSun, Hotel, Briefcase, Check } from 'lucide-react';
 import { apiClient } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
