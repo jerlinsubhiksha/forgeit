@@ -6,6 +6,15 @@ if (!baseURL && !import.meta.env.PROD) {
   baseURL = 'http://localhost:5000/api';
 }
 
+// Ensure the URL always ends with /api to match the Express routes
+if (baseURL && !baseURL.endsWith('/api')) {
+  // If it ends with a slash, remove it first
+  if (baseURL.endsWith('/')) {
+    baseURL = baseURL.slice(0, -1);
+  }
+  baseURL = `${baseURL}/api`;
+}
+
 // Force HTTPS in production
 if (import.meta.env.PROD && baseURL?.startsWith('http://')) {
   baseURL = baseURL.replace('http://', 'https://');
