@@ -51,7 +51,12 @@ apiClient.interceptors.response.use(
     }
 
     // Attach our custom message to the error object so the UI can easily display it
-    error.uiMessage = customMessage;
+    error.uiMessage = `${customMessage} (Attempted to connect to: ${error.config?.baseURL || 'unknown URL'}) - ${error.message}`;
+    console.error('[API Error Details]', {
+      url: error.config?.baseURL,
+      message: error.message,
+      response: error.response,
+    });
     return Promise.reject(error);
   }
 );
