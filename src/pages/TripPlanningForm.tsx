@@ -84,13 +84,13 @@ export default function TripPlanningForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#EAE4FC] p-4" style={{
-      backgroundImage: `radial-gradient(circle at 12% 18%, rgba(255,255,255,0.4) 0, transparent 45%), radial-gradient(circle at 88% 82%, rgba(255,255,255,0.3) 0, transparent 45%)`
+    <div className="min-h-screen flex items-center justify-center bg-[#EAE4FC] dark:bg-[#0F172A] transition-colors duration-500 p-4" style={{
+      backgroundImage: `radial-gradient(circle at 12% 18%, rgba(255,255,255,0.2) 0, transparent 45%), radial-gradient(circle at 88% 82%, rgba(255,255,255,0.15) 0, transparent 45%)`
     }}>
-      <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] max-w-4xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl relative mt-8">
+      <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] max-w-4xl w-full bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-2xl relative mt-8 transition-colors duration-500">
         
         {/* BOARDING PASS STUB */}
-        <div className="bg-[#7C3DB8] text-white p-8 md:pr-10 relative flex flex-col gap-5 md:border-r-2 md:border-dashed md:border-white/40">
+        <div className="bg-[#7C3DB8] dark:bg-[#1e1b4b] text-white p-8 md:pr-10 relative flex flex-col gap-5 md:border-r-2 md:border-dashed md:border-white/40 dark:border-white/10 transition-colors">
           <div className="font-mono text-xs tracking-widest text-white/70 uppercase">Boarding Pass · Draft</div>
           
           <div className="flex items-center gap-3 font-serif text-2xl leading-tight">
@@ -103,23 +103,23 @@ export default function TripPlanningForm() {
             </span>
           </div>
 
-          <div className="flex justify-between border-t border-white/20 pt-3 font-mono text-xs">
+          <div className="flex justify-between border-t border-white/20 dark:border-white/10 pt-3 font-mono text-xs">
             <span className="text-white/70 tracking-wider uppercase">Depart</span>
             <span className={formData.startDate ? "" : "text-white/50"}>{fmtDate(formData.startDate)}</span>
           </div>
-          <div className="flex justify-between border-t border-white/20 pt-3 font-mono text-xs">
+          <div className="flex justify-between border-t border-white/20 dark:border-white/10 pt-3 font-mono text-xs">
             <span className="text-white/70 tracking-wider uppercase">Return</span>
             <span className={formData.endDate ? "" : "text-white/50"}>{fmtDate(formData.endDate)}</span>
           </div>
-          <div className="flex justify-between border-t border-white/20 pt-3 font-mono text-xs">
+          <div className="flex justify-between border-t border-white/20 dark:border-white/10 pt-3 font-mono text-xs">
             <span className="text-white/70 tracking-wider uppercase">Travelers</span>
             <span className={formData.travelers ? "" : "text-white/50"}>{formData.travelers} pax</span>
           </div>
-          <div className="flex justify-between border-t border-white/20 pt-3 font-mono text-xs">
+          <div className="flex justify-between border-t border-white/20 dark:border-white/10 pt-3 font-mono text-xs">
             <span className="text-white/70 tracking-wider uppercase">Class</span>
             <span className={formData.budget ? "" : "text-white/50"}>{formData.budget || '—'}</span>
           </div>
-          <div className="flex justify-between border-t border-white/20 pt-3 font-mono text-xs">
+          <div className="flex justify-between border-t border-white/20 dark:border-white/10 pt-3 font-mono text-xs">
             <span className="text-white/70 tracking-wider uppercase">Style</span>
             <span className={formData.style ? "" : "text-white/50"}>{formData.style || '—'}</span>
           </div>
@@ -147,16 +147,16 @@ export default function TripPlanningForm() {
         </div>
 
         {/* FORM PANEL */}
-        <div className="p-8 md:p-10 text-[#7C3DB8] flex flex-col min-h-[500px]">
+        <div className="p-8 md:p-10 text-[#7C3DB8] dark:text-slate-100 flex flex-col min-h-[500px]">
           
           {step < 6 && (
             <div className="flex items-center gap-3 mb-8">
-              <span className="font-mono text-[11px] tracking-widest uppercase text-[#7C3DB8]/70 whitespace-nowrap">
+              <span className="font-mono text-[11px] tracking-widest uppercase text-[#7C3DB8]/70 dark:text-slate-400 whitespace-nowrap">
                 Step {step} of 5
               </span>
-              <div className="flex-1 h-1 bg-[#EAE4FC] rounded-full overflow-hidden">
+              <div className="flex-1 h-1 bg-[#EAE4FC] dark:bg-slate-700 rounded-full overflow-hidden">
                 <motion.div 
-                  className="h-full bg-[#7C3DB8]" 
+                  className="h-full bg-[#7C3DB8] dark:bg-[#EAE4FC]" 
                   initial={{ width: 0 }}
                   animate={{ width: `${(step / 5) * 100}%` }}
                   transition={{ duration: 0.4 }}
@@ -168,11 +168,11 @@ export default function TripPlanningForm() {
           <div className="flex-1 flex flex-col">
             {step === 1 && (
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col h-full">
-                <h1 className="font-serif font-semibold text-3xl mb-2 text-[#7C3DB8]">Where's this trip taking you?</h1>
-                <p className="text-[#7C3DB8]/70 text-sm mb-4">Start with the two ends of the journey — we'll build everything else around them.</p>
+                <h1 className="font-serif font-semibold text-3xl mb-2 text-[#7C3DB8] dark:text-white">Where's this trip taking you?</h1>
+                <p className="text-[#7C3DB8]/70 dark:text-slate-400 text-sm mb-4">Start with the two ends of the journey — we'll build everything else around them.</p>
 
                 {/* AI Magic Fill Integration */}
-                <div className="bg-[#7C3DB8] p-4 rounded-2xl mb-6 relative overflow-hidden group">
+                <div className="bg-[#7C3DB8] dark:bg-[#1e1b4b] p-4 rounded-2xl mb-6 relative overflow-hidden group">
                   <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-[#EAE4FC]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="relative z-10 flex flex-col gap-3">
                     <label className="text-white text-sm font-semibold flex items-center gap-2">
@@ -220,7 +220,7 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                             if (btn) btn.innerHTML = '✨ Fill';
                           }
                         }}
-                        className="bg-white text-[#7C3DB8] px-4 py-2 rounded-xl font-bold text-sm hover:bg-[#EAE4FC] transition-colors whitespace-nowrap"
+                        className="bg-white text-[#7C3DB8] dark:text-[#1e1b4b] px-4 py-2 rounded-xl font-bold text-sm hover:bg-[#EAE4FC] transition-colors whitespace-nowrap"
                       >
                         ✨ Fill
                       </button>
@@ -236,7 +236,7 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                       value={formData.destination}
                       onChange={e => handleChange('destination', e.target.value)}
                       placeholder="e.g. Kyoto, Japan"
-                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] focus:border-[#7C3DB8] outline-none transition-colors"
+                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] dark:border-slate-700 dark:bg-slate-900 focus:border-[#7C3DB8] outline-none transition-colors"
                     />
                   </div>
                   <div>
@@ -246,14 +246,14 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                       value={formData.startingLocation}
                       onChange={e => handleChange('startingLocation', e.target.value)}
                       placeholder="e.g. Coimbatore, India"
-                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] focus:border-[#7C3DB8] outline-none transition-colors"
+                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] dark:border-slate-700 dark:bg-slate-900 focus:border-[#7C3DB8] outline-none transition-colors"
                     />
                   </div>
                 </div>
                 {errors.err1 && <p className="text-[#E2267A] text-sm mt-3 font-semibold">Add both a destination and a starting point to continue.</p>}
                 
                 <div className="mt-auto pt-6 flex justify-end">
-                  <button onClick={() => goTo(2)} className="bg-[#7C3DB8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-800 transition-colors">Continue</button>
+                  <button onClick={() => goTo(2)} className="bg-[#7C3DB8] dark:bg-[#EAE4FC] dark:text-[#7C3DB8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-800 dark:hover:bg-white transition-colors">Continue</button>
                 </div>
               </motion.div>
             )}
@@ -261,7 +261,7 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
             {step === 2 && (
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col h-full">
                 <h1 className="font-serif font-semibold text-3xl mb-2">When are you going, and with whom?</h1>
-                <p className="text-[#7C3DB8]/70 text-sm mb-8">Dates shape the weather, the crowds, and what's worth doing.</p>
+                <p className="text-[#7C3DB8]/70 dark:text-slate-400 text-sm mb-8">Dates shape the weather, the crowds, and what's worth doing.</p>
                 
                 <div className="grid grid-cols-2 gap-4 mb-5">
                   <div>
@@ -270,7 +270,7 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                       type="date" 
                       value={formData.startDate}
                       onChange={e => handleChange('startDate', e.target.value)}
-                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] focus:border-[#7C3DB8] outline-none"
+                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] dark:border-slate-700 dark:bg-slate-900 focus:border-[#7C3DB8] outline-none"
                     />
                   </div>
                   <div>
@@ -279,7 +279,7 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                       type="date" 
                       value={formData.endDate}
                       onChange={e => handleChange('endDate', e.target.value)}
-                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] focus:border-[#7C3DB8] outline-none"
+                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] dark:border-slate-700 dark:bg-slate-900 focus:border-[#7C3DB8] outline-none"
                     />
                   </div>
                 </div>
@@ -290,14 +290,14 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                     min="1"
                     value={formData.travelers}
                     onChange={e => handleChange('travelers', e.target.value)}
-                    className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] focus:border-[#7C3DB8] outline-none"
+                    className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] dark:border-slate-700 dark:bg-slate-900 focus:border-[#7C3DB8] outline-none"
                   />
                 </div>
                 {errors.err2 && <p className="text-[#E2267A] text-sm mt-3 font-semibold">Check your dates — the trip needs to end after it starts.</p>}
 
                 <div className="mt-auto pt-6 flex justify-between">
-                  <button onClick={() => goTo(1)} className="border-2 border-[#EAE4FC] text-[#7C3DB8] px-6 py-3 rounded-xl font-semibold hover:border-[#7C3DB8] transition-colors">Back</button>
-                  <button onClick={() => goTo(3)} className="bg-[#7C3DB8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-800 transition-colors">Continue</button>
+                  <button onClick={() => goTo(1)} className="border-2 border-[#EAE4FC] dark:border-slate-600 text-[#7C3DB8] dark:text-slate-300 px-6 py-3 rounded-xl font-semibold hover:border-[#7C3DB8] dark:hover:border-white transition-colors">Back</button>
+                  <button onClick={() => goTo(3)} className="bg-[#7C3DB8] dark:bg-[#EAE4FC] dark:text-[#7C3DB8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-800 dark:hover:bg-white transition-colors">Continue</button>
                 </div>
               </motion.div>
             )}
@@ -305,7 +305,7 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
             {step === 3 && (
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col h-full">
                 <h1 className="font-serif font-semibold text-3xl mb-2">What kind of trip is this?</h1>
-                <p className="text-[#7C3DB8]/70 text-sm mb-8">This steers the budget split and the pace of each day.</p>
+                <p className="text-[#7C3DB8]/70 dark:text-slate-400 text-sm mb-8">This steers the budget split and the pace of each day.</p>
                 
                 <div className="space-y-6">
                   <div>
@@ -315,7 +315,7 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                         <button 
                           key={b}
                           onClick={() => handleChange('budget', b)}
-                          className={`px-4 py-2 rounded-full border-2 text-sm font-medium transition-colors ${formData.budget === b ? 'bg-[#7C3DB8] border-[#7C3DB8] text-white' : 'bg-white border-[#EAE4FC] hover:border-[#7C3DB8]'}`}
+                          className={`px-4 py-2 rounded-full border-2 text-sm font-medium transition-colors ${formData.budget === b ? 'bg-[#7C3DB8] dark:bg-[#EAE4FC] border-[#7C3DB8] dark:border-[#EAE4FC] text-white dark:text-[#7C3DB8]' : 'bg-white dark:bg-slate-800 border-[#EAE4FC] dark:border-slate-600 hover:border-[#7C3DB8] dark:hover:border-white'}`}
                         >
                           {b}
                         </button>
@@ -329,7 +329,7 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                         <button 
                           key={s}
                           onClick={() => handleChange('style', s)}
-                          className={`px-4 py-2 rounded-full border-2 text-sm font-medium transition-colors ${formData.style === s ? 'bg-[#7C3DB8] border-[#7C3DB8] text-white' : 'bg-white border-[#EAE4FC] hover:border-[#7C3DB8]'}`}
+                          className={`px-4 py-2 rounded-full border-2 text-sm font-medium transition-colors ${formData.style === s ? 'bg-[#7C3DB8] dark:bg-[#EAE4FC] border-[#7C3DB8] dark:border-[#EAE4FC] text-white dark:text-[#7C3DB8]' : 'bg-white dark:bg-slate-800 border-[#EAE4FC] dark:border-slate-600 hover:border-[#7C3DB8] dark:hover:border-white'}`}
                         >
                           {s}
                         </button>
@@ -341,7 +341,7 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                     <select 
                       value={formData.foodPreference}
                       onChange={e => handleChange('foodPreference', e.target.value)}
-                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] focus:border-[#7C3DB8] outline-none"
+                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] dark:border-slate-700 dark:bg-slate-900 focus:border-[#7C3DB8] outline-none"
                     >
                       <option>No restrictions</option>
                       <option>Vegetarian</option>
@@ -355,8 +355,8 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                 {errors.err3 && <p className="text-[#E2267A] text-sm mt-3 font-semibold">Pick a budget and a travel style to continue.</p>}
 
                 <div className="mt-auto pt-6 flex justify-between">
-                  <button onClick={() => goTo(2)} className="border-2 border-[#EAE4FC] text-[#7C3DB8] px-6 py-3 rounded-xl font-semibold hover:border-[#7C3DB8] transition-colors">Back</button>
-                  <button onClick={() => goTo(4)} className="bg-[#7C3DB8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-800 transition-colors">Continue</button>
+                  <button onClick={() => goTo(2)} className="border-2 border-[#EAE4FC] dark:border-slate-600 text-[#7C3DB8] dark:text-slate-300 px-6 py-3 rounded-xl font-semibold hover:border-[#7C3DB8] dark:hover:border-white transition-colors">Back</button>
+                  <button onClick={() => goTo(4)} className="bg-[#7C3DB8] dark:bg-[#EAE4FC] dark:text-[#7C3DB8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-800 dark:hover:bg-white transition-colors">Continue</button>
                 </div>
               </motion.div>
             )}
@@ -364,7 +364,7 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
             {step === 4 && (
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col h-full">
                 <h1 className="font-serif font-semibold text-3xl mb-2">Anything specific in mind?</h1>
-                <p className="text-[#7C3DB8]/70 text-sm mb-8">Optional — skip any of this and we'll research good options for you.</p>
+                <p className="text-[#7C3DB8]/70 dark:text-slate-400 text-sm mb-8">Optional — skip any of this and we'll research good options for you.</p>
                 
                 <div className="space-y-4">
                   <div>
@@ -374,7 +374,7 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                       value={formData.hotelsNote}
                       onChange={e => handleChange('hotelsNote', e.target.value)}
                       placeholder="e.g. a ryokan near Gion"
-                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] focus:border-[#7C3DB8] outline-none"
+                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] dark:border-slate-700 dark:bg-slate-900 focus:border-[#7C3DB8] outline-none"
                     />
                   </div>
                   <div>
@@ -384,7 +384,7 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                       value={formData.restaurantsNote}
                       onChange={e => handleChange('restaurantsNote', e.target.value)}
                       placeholder="e.g. a good sushi counter"
-                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] focus:border-[#7C3DB8] outline-none"
+                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] dark:border-slate-700 dark:bg-slate-900 focus:border-[#7C3DB8] outline-none"
                     />
                   </div>
                   <div>
@@ -393,14 +393,14 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
                       value={formData.attractionsNote}
                       onChange={e => handleChange('attractionsNote', e.target.value)}
                       placeholder="e.g. Fushimi Inari, day trip to Nara"
-                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] focus:border-[#7C3DB8] outline-none min-h-[100px]"
+                      className="w-full p-3 rounded-xl border-2 border-[#EAE4FC] dark:border-slate-700 dark:bg-slate-900 focus:border-[#7C3DB8] outline-none min-h-[100px]"
                     />
                   </div>
                 </div>
 
                 <div className="mt-auto pt-6 flex justify-between">
-                  <button onClick={() => goTo(3)} className="border-2 border-[#EAE4FC] text-[#7C3DB8] px-6 py-3 rounded-xl font-semibold hover:border-[#7C3DB8] transition-colors">Back</button>
-                  <button onClick={() => goTo(5)} className="bg-[#7C3DB8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-800 transition-colors">Review</button>
+                  <button onClick={() => goTo(3)} className="border-2 border-[#EAE4FC] dark:border-slate-600 text-[#7C3DB8] dark:text-slate-300 px-6 py-3 rounded-xl font-semibold hover:border-[#7C3DB8] dark:hover:border-white transition-colors">Back</button>
+                  <button onClick={() => goTo(5)} className="bg-[#7C3DB8] dark:bg-[#EAE4FC] dark:text-[#7C3DB8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-800 dark:hover:bg-white transition-colors">Review</button>
                 </div>
               </motion.div>
             )}
@@ -408,29 +408,29 @@ Return ONLY valid JSON with keys: destination, startingLocation, travelers (numb
             {step === 5 && (
               <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col h-full">
                 <h1 className="font-serif font-semibold text-3xl mb-2">Ready to print your itinerary brief</h1>
-                <p className="text-[#7C3DB8]/70 text-sm mb-6">Check the details on your boarding pass, then send it off.</p>
+                <p className="text-[#7C3DB8]/70 dark:text-slate-400 text-sm mb-6">Check the details on your boarding pass, then send it off.</p>
                 
-                <div className="space-y-3 mb-6 bg-[#EAE4FC]/30 p-5 rounded-2xl border border-[#EAE4FC]">
-                  <div className="flex justify-between border-b border-[#EAE4FC] pb-2"><span className="text-[#7C3DB8]/70 font-semibold">Destination</span><span className="font-medium">{formData.destination}</span></div>
-                  <div className="flex justify-between border-b border-[#EAE4FC] pb-2"><span className="text-[#7C3DB8]/70 font-semibold">Starting location</span><span className="font-medium">{formData.startingLocation}</span></div>
-                  <div className="flex justify-between border-b border-[#EAE4FC] pb-2"><span className="text-[#7C3DB8]/70 font-semibold">Dates</span><span className="font-medium">{fmtDate(formData.startDate)} → {fmtDate(formData.endDate)}</span></div>
-                  <div className="flex justify-between border-b border-[#EAE4FC] pb-2"><span className="text-[#7C3DB8]/70 font-semibold">Travelers</span><span className="font-medium">{formData.travelers}</span></div>
-                  <div className="flex justify-between border-b border-[#EAE4FC] pb-2"><span className="text-[#7C3DB8]/70 font-semibold">Budget</span><span className="font-medium">{formData.budget}</span></div>
-                  <div className="flex justify-between"><span className="text-[#7C3DB8]/70 font-semibold">Travel style</span><span className="font-medium">{formData.style}</span></div>
+                <div className="space-y-3 mb-6 bg-[#EAE4FC]/30 dark:bg-slate-900 p-5 rounded-2xl border border-[#EAE4FC] dark:border-slate-700">
+                  <div className="flex justify-between border-b border-[#EAE4FC] dark:border-slate-700 pb-2"><span className="text-[#7C3DB8]/70 dark:text-slate-400 font-semibold">Destination</span><span className="font-medium">{formData.destination}</span></div>
+                  <div className="flex justify-between border-b border-[#EAE4FC] dark:border-slate-700 pb-2"><span className="text-[#7C3DB8]/70 dark:text-slate-400 font-semibold">Starting location</span><span className="font-medium">{formData.startingLocation}</span></div>
+                  <div className="flex justify-between border-b border-[#EAE4FC] dark:border-slate-700 pb-2"><span className="text-[#7C3DB8]/70 dark:text-slate-400 font-semibold">Dates</span><span className="font-medium">{fmtDate(formData.startDate)} → {fmtDate(formData.endDate)}</span></div>
+                  <div className="flex justify-between border-b border-[#EAE4FC] dark:border-slate-700 pb-2"><span className="text-[#7C3DB8]/70 dark:text-slate-400 font-semibold">Travelers</span><span className="font-medium">{formData.travelers}</span></div>
+                  <div className="flex justify-between border-b border-[#EAE4FC] dark:border-slate-700 pb-2"><span className="text-[#7C3DB8]/70 dark:text-slate-400 font-semibold">Budget</span><span className="font-medium">{formData.budget}</span></div>
+                  <div className="flex justify-between"><span className="text-[#7C3DB8]/70 dark:text-slate-400 font-semibold">Travel style</span><span className="font-medium">{formData.style}</span></div>
                 </div>
 
                 <div className="mt-auto pt-6 flex justify-between">
-                  <button onClick={() => goTo(4)} className="border-2 border-[#EAE4FC] text-[#7C3DB8] px-6 py-3 rounded-xl font-semibold hover:border-[#7C3DB8] transition-colors">Back</button>
-                  <button onClick={submitTrip} className="bg-[#7C3DB8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-800 transition-colors">Generate my plan</button>
+                  <button onClick={() => goTo(4)} className="border-2 border-[#EAE4FC] dark:border-slate-600 text-[#7C3DB8] dark:text-slate-300 px-6 py-3 rounded-xl font-semibold hover:border-[#7C3DB8] dark:hover:border-white transition-colors">Back</button>
+                  <button onClick={submitTrip} className="bg-[#7C3DB8] dark:bg-[#EAE4FC] dark:text-[#7C3DB8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-800 dark:hover:bg-white transition-colors">Generate my plan</button>
                 </div>
               </motion.div>
             )}
 
             {step === 6 && (
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center justify-center h-full text-center py-12">
-                <div className="w-16 h-16 rounded-full bg-[#7C3DB8] text-white flex items-center justify-center text-3xl mb-6 font-bold shadow-lg shadow-[#7C3DB8]/30">✓</div>
-                <h1 className="font-serif font-semibold text-3xl mb-3 text-[#7C3DB8]">Sent to Voyana AI</h1>
-                <p className="text-[#7C3DB8]/70 max-w-sm">Your trip brief is on its way to the chat — your personalized plan will appear there next.</p>
+                <div className="w-16 h-16 rounded-full bg-[#7C3DB8] dark:bg-[#EAE4FC] text-white dark:text-[#7C3DB8] flex items-center justify-center text-3xl mb-6 font-bold shadow-lg shadow-[#7C3DB8]/30">✓</div>
+                <h1 className="font-serif font-semibold text-3xl mb-3 text-[#7C3DB8] dark:text-white">Sent to Voyana AI</h1>
+                <p className="text-[#7C3DB8]/70 dark:text-slate-400 max-w-sm">Your trip brief is on its way to the chat — your personalized plan will appear there next.</p>
               </motion.div>
             )}
           </div>

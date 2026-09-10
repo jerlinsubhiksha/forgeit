@@ -7,6 +7,8 @@ import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import ThemeToggle from "./components/ThemeToggle";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Toaster } from 'react-hot-toast';
@@ -17,26 +19,29 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || 'mock-client-id'}>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <BrowserRouter>
-            <Toaster position="top-right" />
-            <Routes>
-              {/* Auth Routes */}
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              
-              <Route path="/" element={<MainLayout />}>
-                <Route index element={<LandingPage />} />
-                <Route path="plan" element={<TripPlanningForm />} />
+        <ThemeProvider>
+          <AuthProvider>
+            <BrowserRouter>
+              <ThemeToggle />
+              <Toaster position="top-right" />
+              <Routes>
+                {/* Auth Routes */}
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
                 
-                {/* Protected Routes */}
-                <Route element={<ProtectedRoute />}>
-                  <Route path="dashboard" element={<Dashboard />} />
+                <Route path="/" element={<MainLayout />}>
+                  <Route index element={<LandingPage />} />
+                  <Route path="plan" element={<TripPlanningForm />} />
+                  
+                  {/* Protected Routes */}
+                  <Route element={<ProtectedRoute />}>
+                    <Route path="dashboard" element={<Dashboard />} />
+                  </Route>
                 </Route>
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </AuthProvider>
+              </Routes>
+            </BrowserRouter>
+          </AuthProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </GoogleOAuthProvider>
   );
