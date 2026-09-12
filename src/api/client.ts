@@ -52,11 +52,10 @@ apiClient.interceptors.response.use(
       customMessage = 'Unable to connect to the backend server. Please check your network.';
     } else if (error.response.status === 401) {
       customMessage = 'Authentication failed. Please log in again.';
-      // Optional: Handle auto logout
+    } else if (error.response.data && (error.response.data.message || error.response.data.error)) {
+      customMessage = error.response.data.message || error.response.data.error;
     } else if (error.response.status >= 500) {
       customMessage = 'Server error. The backend is currently unavailable.';
-    } else if (error.response.data && error.response.data.message) {
-      customMessage = error.response.data.message;
     }
 
     // Attach our custom message to the error object so the UI can easily display it
